@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Manage References{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Reference Stool Color Management</h1>
+    <a href="/export-references-csv" class="btn btn-success">Export References to CSV</a>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Color</th>
+                        <th scope="col">Label</th>
+                        <th scope="col">Uploaded By</th>
+                        <th scope="col" class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ref in references %}
+                    <tr>
+                        <th scope="row">{{ ref.id }}</th>
+                        <td>
+                            <div style="width: 40px; height: 40px; background-color: {{ ref.hex }}; border: 1px solid #ccc; border-radius: 50%;"></div>
+                        </td>
+                        <td class="text-capitalize">{{ ref.label }}</td>
+                        <td>{{ ref.doctor }}</td>
+                        <td class="text-end">
+                            <form action="{{ url_for('delete_reference', ref_id=ref.id) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this reference?');">
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center text-muted">No references found in the database.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

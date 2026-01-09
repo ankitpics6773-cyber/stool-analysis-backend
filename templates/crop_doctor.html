@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Doctor Panel - Step 2</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .img-container { max-width: 100%; }
+        img { max-width: 100%; }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header"><h3 class="text-center">Select Sample Area & Label</h3></div>
+                    <div class="card-body">
+                        <div id="alert-placeholder"></div>
+
+                        <p class="text-center text-muted">Please drag and resize the box to select the most consistent color area of the stool.</p>
+                        <div class="img-container">
+                            <img id="imageToCrop" src="data:image/jpeg;base64,{{ image_data }}">
+                        </div>
+
+                        <form id="cropForm" class="mt-4">
+                            <input type="hidden" name="image_data" id="image_data">
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="label" class="form-label">Label:</label>
+                                    <select class="form-select" name="label" required>
+                                        <option value="normal">Normal/Pigmented</option>
+                                        <option value="pale">Pale</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="doctor_name" class="form-label">Doctor's Name:</label>
+                                    <input type="text" class="form-control" name="doctor_name" value="Admin">
+                                </div>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-success" id="saveBtn">
+                                    Save Reference Color
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            const image = document.getElementById('imageToCrop');
+            const form = document.getElementById('cropForm');
+            const alertPlaceholder = document.getElementById('alert-placeholder');
+            const saveBtn = document.getElementById('saveBtn');
+
+            const cropper = new Cropper(image, { aspectRatio: 1, viewMode: 1 });
+
+            // अलर्ट दिखाने के लिए एक हेल्पर फंक्शन
+            const showAlert = (message, type) => {
+                alertPlaceholder.innerHTML = `<div class="alert alert-${type} alert-dismissible" role="alert">
+                    <div>${message}</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>`;
+            }
+
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                // बटन को डिसेबल करें और लोडिंग टेक्स्ट दिखाएं
+                saveBtn.disabled = true;
+                saveBtn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...`;
+
+                // FormData ऑब्जेक्ट बनाएं
+                const formData = new FormData(form);
+                const croppedCanvas = cropper.getCroppedCanvas({ width: 256, height: 256 });
+                const croppedImageData = croppedCanvas.toDataURL();
+                formData.set('image_data', croppedImageData);
+
+                // Fetch API का उपयोग करके डेटा बैकग्राउंड में भेजें
+                fetch('/save-reference', {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // सर्वर से मिले जवाब के आधार पर अलर्ट दिखाएं
+                    if (data.status === 'success') {
+                        showAlert(data.message, 'success');
+                        // सफलता पर 2 सेकंड बाद डॉक्टर पेज पर वापस भेजें
+                        setTimeout(() => {
+                            window.location.href = '/doctor';
+                        }, 2000);
+                    } else {
+                        showAlert(data.message, data.status); // warning or error
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showAlert('An unexpected error occurred.', 'danger');
+                })
+                .finally(() => {
+                    // बटन को वापस ओरिजिनल स्टेट में लाएं
+                    saveBtn.disabled = false;
+                    saveBtn.innerHTML = 'Save Reference Color';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

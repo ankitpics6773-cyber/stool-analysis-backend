@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}Patient History{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Patient Analysis History</h1>
+    <div>
+        <a href="/export-csv" class="btn btn-success">Export History to CSV</a>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" action="{{ url_for('history') }}">
+            <div class="input-group">
+                <input type="text" class="form-control" name="search_name" placeholder="Search by patient name..." value="{{ search_query or '' }}">
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
+                <a href="/history" class="btn btn-outline-danger">Clear</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Patient Name</th>
+                        <th scope="col">Age</th>
+                        <th scope="col">Sex</th>
+                        <th scope="col">Matched Color</th>
+                        <th scope="col">Matched Label</th>
+                        <th scope="col">Match Score (% Similarity)</th>
+                        <th scope="col" class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in history %}
+                    <tr>
+                        <td>{{ record.analysis_date }}</td>
+                        <td>{{ record.patient_name }}</td>
+                        <td>{{ record.patient_age }}</td>
+                        <td class="text-capitalize">{{ record.patient_sex }}</td>
+                        <td>
+                            <div style="width: 30px; height: 30px; background-color: {{ record.matched_hex }}; border: 1px solid #ccc; border-radius: 50%;"></div>
+                        </td>
+                        <td class="text-capitalize">{{ record.matched_label }}</td>
+                        <td>{{ record.match_score }} ({{ record.match_percentage }}%)</td>
+                        <td class="text-end">
+                            <form action="{{ url_for('delete_history', analysis_id=record.analysis_id) }}" method="post" onsubmit="return confirm('Are you sure you want to permanently delete this history record?');">
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="8" class="text-center text-muted">No patient history found for the current filter.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

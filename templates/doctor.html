@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Upload Reference{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+             <div class="card">
+                <div class="card-header"><h3 class="text-center">Upload New Stool Reference Image</h3></div>
+                <div class="card-body">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    <form action="/doctor-upload" method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Select Image:</label>
+                            <input type="file" class="form-control" name="image" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Next: Crop & Label</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

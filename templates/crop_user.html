@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>User Analysis - Step 2</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .img-container { max-width: 100%; }
+        img { max-width: 100%; }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header"><h3 class="text-center">Select Sample Area for Analysis</h3></div>
+                    <div class="card-body">
+                        <p class="text-center text-muted">Please drag and resize the box to select the most consistent color area of the stool.</p>
+                        <div class="img-container">
+                            <img id="imageToCrop" src="data:image/jpeg;base64,{{ image_data }}">
+                        </div>
+
+                        <form action="/analyze" method="post" id="cropForm" class="mt-4">
+
+                            <input type="hidden" name="image_data" id="image_data">
+                            <input type="hidden" name="patient_name" value="{{ patient_info.name }}">
+                            <input type="hidden" name="age" value="{{ patient_info.age }}">
+                            <input type="hidden" name="sex" value="{{ patient_info.sex }}">
+                            
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-success" id="analyzeBtn">
+                                    Analyze Selected Area
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            const image = document.getElementById('imageToCrop');
+            const cropDataInput = document.getElementById('crop_data');
+            const form = document.getElementById('cropForm');
+            const analyzeBtn = document.getElementById('analyzeBtn');
+
+            const cropper = new Cropper(image, {
+                aspectRatio: 1,
+                viewMode: 1,
+            });
+
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                // --- UX Improvement ---
+                // बटन को डिसेबल करें और लोडिंग टेक्स्ट दिखाएं
+                analyzeBtn.disabled = true;
+                analyzeBtn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Analyzing...`;
+                
+                // Get the cropped image data as a Base64 data URL
+                const croppedCanvas = cropper.getCroppedCanvas({ width: 256, height: 256 });
+                const croppedImageData = croppedCanvas.toDataURL();
+
+                // Set the value of the hidden input to the cropped image data
+                document.getElementById('image_data').value = croppedImageData;
+
+                // अब फॉर्म को सबमिट करें
+                form.submit();
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "stool-analysis-project",
+  "private_key_id": "2eaa832f386647a06c947f20620ae7f4892a2471",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCRv9fCpUFu0QoV\nHGCDg/HI7Lp47lb1y245tBMzjY/FUWxTRUCL7Ja2xfRrpEJyMlLfuIowWI5eHLf0\nu+DIGg04E2lrdFYbNhPr6XaDqDWb7vAXWUQWX2ys+q15/zfs9ncYtMd9uZ+m0EqI\nC3gvyjHex7FT4+mxtk3uEdzh4cR9nPqVtQ5HVb5GiVNOfZIY+1qQiVjrcw3D5KFY\nZKZwrI167ftJAafDhEklkpBfSqtjYQ7vVrfc8R7WrOzH6CuuiJ+kkH8PJ4wNl00G\nd2Jxfz8xPBkWiWjkp5qt2/IoyE0OZsVAzFSpG1fylj2HZFcrce9dZwz6tBtDHbS5\nn0A0MshTAgMBAAECggEADV7H8DcwtXW/swgTYn0sJP5ybL2QhKPQzMJUMJp/4d4C\nTfFAZpWhjcrDDUzYO5maOKO5KY42ITQJPA4wJKsfI1HEjfLyIzTmxvF3ycQYhuF4\nbOvnbxX55jRozZQ4ESja7A1Jb6Mjni3laG2E7P1jbchr4AI8Ye0TYQ+Kb75CRDOK\n6I6hh+7TmDj4HMRABipblF6nqc57D9it8cjIjyWIuDLyvFvwByvDyeZlggTAGAwa\nNU1L2/AfHA3i2R580iXBXOmCDE/uZNQQV4I99HWRN1BZki43NPO4fO/sOmmpPd6X\nPCK/arObIqlbcn+POAja/e7JGg/+hn7gF1DEGAHewQKBgQDCI4HqnkpgHJwsTLIH\naXt6GOD4yfj1LlaKRKhL4iqlyO39KngJjPFYI5V79VRwLzDZX2YzOszvSnVP9ozd\nwKOU3cdxUz066curCwyRDHUb1m0FZSpxACzXgHNckiqRnOs7jhDO66ytK1Y+xKnd\nk6OjxptMxNOKvIvIOdM4PisQuwKBgQDAMRHWOR//VSpI/5C+324Wr23zyKVSZV0h\nXLCAXzztwNUdqLp8L5l1R7qthPKQgNOgTAAjfrbggkvB/cE/QRMNDCf4MgmKrXwK\naP9Hp/+BrYVJv6/8BAkX+MKjHW8T3MuLSQvD2OV59/E2+XIDZ24aPwCXzpzri0eN\nMZSzRq5ZSQKBgQCGoSkPEwZw8GY9MlKjYTsHyQj6ftXu8VuCN2qedREuNtETp8fm\nl58miEa517/erFsr40R0cmp75x7DfS7i+Rx3t/T/WcI0gL2Et/zW+dScoW6pNybf\nhkeSirl1kMeEg1V9z19In5b33/3HOYqy5hetE6XO7w/kPiyRhcg8UKB80QKBgHxG\nvqvxoHkxDvjJGUXzoHJW2hiLpCuVlBUgpJk9/F4ZFTXqhzwKY4bs7Q+LKna6dx3u\nRyCsrYCbgHVeqvlGERWcyLO7V2QvLkhlAL3LKnMmS0wXAatKyL6RgvqK6+rCGXRl\ntY/czvaBl57eyhTdatrZ5n5DgkDlfU0VxHvwtojRAoGARMVvSkW6GUucx5lo6+pr\nylXODoIccKqjAdaH8mnMMtan7ljHh+Za37EjpqARiQ+VjDP24dZDJYSi6vgQl0Hr\nHmg4XvI4zwSsaylDSg3JvlVnFBWjd3rwQbBNEL4BzVwI8tWVTpmWF1yJ/Ill2m6j\nYvIgl5gnkjxbwbIa7BYGLDY=\n-----END PRIVATE KEY-----\n",
+  "client_email": "stool-analyzer-sheet-editor@stool-analysis-project.iam.gserviceaccount.com",
+  "client_id": "116153594258320026362",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/stool-analyzer-sheet-editor%40stool-analysis-project.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
