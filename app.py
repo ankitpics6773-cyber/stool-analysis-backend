@@ -87,18 +87,7 @@ logging.basicConfig(level=logging.INFO)
 
 try:
     import gspread
-
-    # This will get the SPREADSHEET_ID from Cloud Run's environment variables
-    from config import SPREADSHEET_ID
-
-    if SPREADSHEET_ID:
-        # On Cloud Run, this uses the service account's credentials automatically
-        # No JSON file needed!
-
-    import json
-    import gspread
     from google.oauth2.service_account import Credentials
-
     from config import SPREADSHEET_ID
 
     service_account_json = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON")
@@ -111,18 +100,17 @@ try:
             "https://www.googleapis.com/auth/drive"
         ]
 
-        creds = Credentials.from_service_account_info(creds_dict, scopes=scopes)
+        creds = Credentials.from_service_account_info(
+            creds_dict,
+            scopes=scopes
+        )
+
         gc = gspread.authorize(creds)
         spreadsheet = gc.open_by_key(SPREADSHEET_ID)
 
         logger.info("✅ Google Sheets connected successfully (Render).")
     else:
         logger.warning("⚠️ Google Sheets disabled (missing env vars).")
-
-        
-        logger.info("✅ Google Sheets connected successfully.")
-    else:
-        logger.warning("⚠️ SPREADSHEET_ID is not set. Google Sheets is disabled.")
 
 except Exception as e:
     logger.exception("⚠️ Failed to connect to Google Sheets: %s", e)
