@@ -95,9 +95,18 @@ try:
         # On Cloud Run, this uses the service account's credentials automatically
         # No JSON file needed!
 
-        creds, _ = google.auth.default()
+        from google.oauth2 import service_account
+
+        SERVICE_ACCOUNT_FILE = "/etc/secrets/google_service_account.json"
+
+        creds = service_account.Credentials.from_service_account_file(
+            SERVICE_ACCOUNT_FILE,
+            scopes=["https://www.googleapis.com/auth/spreadsheets"]
+        )
+
         gc = gspread.authorize(creds)
         spreadsheet = gc.open_by_key(SPREADSHEET_ID)
+        
         logger.info("✅ Google Sheets connected successfully.")
     else:
         logger.warning("⚠️ SPREADSHEET_ID is not set. Google Sheets is disabled.")
